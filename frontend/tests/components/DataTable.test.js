@@ -12,7 +12,7 @@ const i18n = createI18n({
   locale: 'en-US',
   messages: {
     'en-US': {
-      common: { actions: 'Actions', loading: 'Loading...', noData: 'No data found' }
+      common: { actions: 'Actions', loading: 'Loading...', noData: 'No data found', edit: 'Edit', delete: 'Delete' }
     }
   }
 })

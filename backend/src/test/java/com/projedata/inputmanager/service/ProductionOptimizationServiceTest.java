@@ -4,6 +4,7 @@ import com.projedata.inputmanager.dto.OptimizationResultDTO;
 import com.projedata.inputmanager.model.Product;
 import com.projedata.inputmanager.model.ProductComposition;
 import com.projedata.inputmanager.model.RawMaterial;
+import com.projedata.inputmanager.repository.ProductCompositionRepository;
 import com.projedata.inputmanager.repository.ProductRepository;
 import com.projedata.inputmanager.repository.RawMaterialRepository;
 import io.quarkus.test.junit.QuarkusTest;
@@ -41,13 +42,23 @@ class ProductionOptimizationServiceTest {
     @Inject
     ProductRepository productRepository;
 
+    @Inject
+    ProductCompositionRepository compositionRepository;
+
     @BeforeEach
     @Transactional
     void cleanDatabase() {
         // PT-BR: Limpamos o banco antes de cada teste para garantir isolamento total.
         //        Cada teste comeca com uma base limpa, sem influencia dos anteriores.
+        //        IMPORTANTE: A ordem de exclusao respeita as restricoes de FK.
+        //        Composicoes referenciam produtos e materiais, entao devem ser
+        //        deletadas primeiro para evitar ConstraintViolationException.
         // EN-US: We clean the database before each test to ensure total isolation.
         //        Each test starts with a clean slate, with no influence from previous ones.
+        //        IMPORTANT: Deletion order respects FK constraints.
+        //        Compositions reference products and materials, so they must be
+        //        deleted first to avoid ConstraintViolationException.
+        compositionRepository.deleteAll();
         productRepository.deleteAll();
         rawMaterialRepository.deleteAll();
     }
