@@ -41,7 +41,7 @@ defineProps({
 defineEmits(['toggle'])
 
 const navItems = [
-  { path: '/', label: 'nav.dashboard', icon: '&#9632;' },
+  { path: '/dashboard', label: 'nav.dashboard', icon: '&#9632;' },
   { path: '/raw-materials', label: 'nav.rawMaterials', icon: '&#9650;' },
   { path: '/products', label: 'nav.products', icon: '&#9679;' },
   { path: '/optimization', label: 'nav.optimization', icon: '&#9733;' }

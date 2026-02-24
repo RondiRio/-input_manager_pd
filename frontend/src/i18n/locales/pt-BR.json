@@ -80,6 +80,62 @@
     "no": "Nao",
     "language": "Idioma"
   },
+  "landing": {
+    "title": "Input Manager PD",
+    "nav": {
+      "features": "Funcionalidades",
+      "techStack": "Tecnologias",
+      "about": "Sobre",
+      "enterApp": "Acessar Sistema"
+    },
+    "hero": {
+      "headline": "Gestao Inteligente de Insumos e Producao",
+      "subtitle": "Otimize sua producao industrial com algoritmos avancados. Gerencie materias-primas, controle composicoes e maximize sua receita com o algoritmo Branch and Bound.",
+      "cta": "Acessar o Sistema",
+      "secondaryCta": "Conhecer Funcionalidades"
+    },
+    "features": {
+      "sectionTitle": "Funcionalidades Principais",
+      "sectionSubtitle": "Tudo o que voce precisa para gerenciar insumos e otimizar a producao industrial.",
+      "stockManagement": {
+        "title": "Gestao de Estoque",
+        "description": "Cadastre e controle materias-primas com precisao industrial. Acompanhe quantidades, unidades de medida e valores em tempo real."
+      },
+      "productionOptimization": {
+        "title": "Otimizacao de Producao",
+        "description": "Algoritmo Branch and Bound encontra a combinacao ideal de produtos que maximiza sua receita total, respeitando as restricoes de estoque."
+      },
+      "compositionManagement": {
+        "title": "Gestao de Composicoes",
+        "description": "Defina a composicao de cada produto com suas materias-primas e quantidades necessarias. Prevencao automatica de duplicatas."
+      },
+      "realtimeDashboard": {
+        "title": "Painel em Tempo Real",
+        "description": "Visualize metricas essenciais: total de materias-primas, produtos cadastrados e valor total do estoque em um unico painel."
+      }
+    },
+    "tech": {
+      "sectionTitle": "Tecnologias Utilizadas",
+      "sectionSubtitle": "Construido com tecnologias modernas e robustas para desempenho e confiabilidade.",
+      "backend": "Backend",
+      "frontend": "Frontend",
+      "database": "Banco de Dados",
+      "tools": "Ferramentas"
+    },
+    "developer": {
+      "sectionTitle": "Desenvolvido por",
+      "name": "Rondineli Oliveira",
+      "role": "Desenvolvedor Full Stack",
+      "description": "Projeto desenvolvido como parte do portfolio profissional, demonstrando dominio em Java/Quarkus, Vue.js 3 e algoritmos de otimizacao.",
+      "visitSite": "Visitar netonerd.com"
+    },
+    "footer": {
+      "description": "Sistema de gestao de insumos e otimizacao de producao industrial.",
+      "links": "Links",
+      "contact": "Contato",
+      "copyright": "Todos os direitos reservados."
+    }
+  },
   "units": {
     "g": "gramas",
     "kg": "quilogramas",

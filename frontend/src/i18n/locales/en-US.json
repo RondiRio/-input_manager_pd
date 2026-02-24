@@ -80,6 +80,62 @@
     "no": "No",
     "language": "Language"
   },
+  "landing": {
+    "title": "Input Manager PD",
+    "nav": {
+      "features": "Features",
+      "techStack": "Tech Stack",
+      "about": "About",
+      "enterApp": "Enter App"
+    },
+    "hero": {
+      "headline": "Smart Input Management and Production Optimization",
+      "subtitle": "Optimize your industrial production with advanced algorithms. Manage raw materials, control compositions, and maximize revenue with the Branch and Bound algorithm.",
+      "cta": "Enter the System",
+      "secondaryCta": "Explore Features"
+    },
+    "features": {
+      "sectionTitle": "Key Features",
+      "sectionSubtitle": "Everything you need to manage inputs and optimize industrial production.",
+      "stockManagement": {
+        "title": "Stock Management",
+        "description": "Register and control raw materials with industrial precision. Track quantities, units of measurement, and values in real time."
+      },
+      "productionOptimization": {
+        "title": "Production Optimization",
+        "description": "Branch and Bound algorithm finds the ideal product combination that maximizes your total revenue while respecting stock constraints."
+      },
+      "compositionManagement": {
+        "title": "Composition Management",
+        "description": "Define each product's composition with its raw materials and required quantities. Automatic duplicate prevention."
+      },
+      "realtimeDashboard": {
+        "title": "Real-time Dashboard",
+        "description": "View essential metrics: total raw materials, registered products, and total stock value in a single panel."
+      }
+    },
+    "tech": {
+      "sectionTitle": "Tech Stack",
+      "sectionSubtitle": "Built with modern and robust technologies for performance and reliability.",
+      "backend": "Backend",
+      "frontend": "Frontend",
+      "database": "Database",
+      "tools": "Tools"
+    },
+    "developer": {
+      "sectionTitle": "Developed by",
+      "name": "Rondineli Oliveira",
+      "role": "Full Stack Developer",
+      "description": "Project developed as part of a professional portfolio, demonstrating expertise in Java/Quarkus, Vue.js 3, and optimization algorithms.",
+      "visitSite": "Visit netonerd.com"
+    },
+    "footer": {
+      "description": "Industrial input management and production optimization system.",
+      "links": "Links",
+      "contact": "Contact",
+      "copyright": "All rights reserved."
+    }
+  },
   "units": {
     "g": "grams",
     "kg": "kilograms",

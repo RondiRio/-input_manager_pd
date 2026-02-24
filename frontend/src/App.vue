@@ -1,13 +1,19 @@
 <template>
-  <MainLayout>
+  <!-- PT-BR: Layout condicional — páginas com meta.layout === 'none' (landing, login)
+              renderizam sem o MainLayout (sidebar + header). Todas as outras usam. -->
+  <!-- EN-US: Conditional layout — pages with meta.layout === 'none' (landing, login)
+              render without MainLayout (sidebar + header). All others use it. -->
+  <MainLayout v-if="requiresLayout">
     <RouterView />
   </MainLayout>
+  <RouterView v-else />
 </template>
 
 <script setup>
-// PT-BR: Componente raiz da aplicacao. Envolve todas as rotas no layout principal
-//        que inclui a barra lateral e o cabecalho.
-// EN-US: Root application component. Wraps all routes in the main layout that
-//        includes the sidebar and header.
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
 import MainLayout from '@/components/layout/MainLayout.vue'
+
+const route = useRoute()
+const requiresLayout = computed(() => route.meta.layout !== 'none')
 </script>

@@ -1,12 +1,26 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 // PT-BR: Rotas da aplicacao com carregamento lazy para melhor performance.
-//        Cada view e carregada somente quando o usuario navega ate ela.
+//        A landing page e a rota raiz (/), publica, sem sidebar.
+//        O dashboard e as paginas internas usam o MainLayout com sidebar.
 // EN-US: Application routes with lazy loading for better performance.
-//        Each view is loaded only when the user navigates to it.
+//        The landing page is the root route (/), public, without sidebar.
+//        The dashboard and internal pages use MainLayout with sidebar.
 const routes = [
   {
     path: '/',
+    name: 'landing',
+    component: () => import('@/views/LandingView.vue'),
+    meta: { title: 'landing.title', layout: 'none' }
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: () => import('@/views/LoginView.vue'),
+    meta: { title: 'Login', layout: 'none' }
+  },
+  {
+    path: '/dashboard',
     name: 'dashboard',
     component: () => import('@/views/DashboardView.vue'),
     meta: { title: 'nav.dashboard' }
@@ -33,7 +47,15 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
+  routes,
+  // PT-BR: Scroll suave para links ancora (#features, #tech, #about) na landing page.
+  // EN-US: Smooth scroll for anchor links (#features, #tech, #about) on the landing page.
+  scrollBehavior(to) {
+    if (to.hash) {
+      return { el: to.hash, behavior: 'smooth' }
+    }
+    return { top: 0 }
+  }
 })
 
 export default router
