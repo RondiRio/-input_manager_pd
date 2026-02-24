@@ -1,0 +1,90 @@
+{
+  "nav": {
+    "dashboard": "Painel",
+    "rawMaterials": "Materias-Primas",
+    "products": "Produtos",
+    "optimization": "Otimizacao"
+  },
+  "dashboard": {
+    "title": "Painel de Controle",
+    "totalRawMaterials": "Total de Materias-Primas",
+    "totalProducts": "Total de Produtos",
+    "totalStockValue": "Valor do Estoque",
+    "quickActions": "Acoes Rapidas",
+    "addRawMaterial": "Adicionar Materia-Prima",
+    "addProduct": "Adicionar Produto",
+    "runOptimization": "Executar Otimizacao"
+  },
+  "rawMaterial": {
+    "title": "Materias-Primas",
+    "code": "Codigo",
+    "name": "Nome",
+    "stockQuantity": "Quantidade em Estoque",
+    "unit": "Unidade",
+    "addNew": "Nova Materia-Prima",
+    "edit": "Editar Materia-Prima",
+    "deleteConfirm": "Tem certeza que deseja excluir esta materia-prima?",
+    "deleteWarning": "Esta acao nao pode ser desfeita.",
+    "created": "Materia-prima criada com sucesso",
+    "updated": "Materia-prima atualizada com sucesso",
+    "deleted": "Materia-prima excluida com sucesso"
+  },
+  "product": {
+    "title": "Produtos",
+    "code": "Codigo",
+    "name": "Nome",
+    "salePrice": "Preco de Venda",
+    "composition": "Composicao",
+    "addNew": "Novo Produto",
+    "edit": "Editar Produto",
+    "addMaterial": "Adicionar Material",
+    "requiredQuantity": "Quantidade Necessaria",
+    "selectMaterial": "Selecione uma materia-prima",
+    "noComposition": "Nenhuma composicao definida",
+    "deleteConfirm": "Tem certeza que deseja excluir este produto?",
+    "created": "Produto criado com sucesso",
+    "updated": "Produto atualizado com sucesso",
+    "deleted": "Produto excluido com sucesso"
+  },
+  "optimization": {
+    "title": "Otimizacao de Producao",
+    "description": "Analise o estoque atual e descubra a combinacao de produtos que maximiza a receita total de vendas.",
+    "run": "Executar Otimizacao",
+    "running": "Calculando melhor plano de producao...",
+    "totalRevenue": "Receita Total Maxima",
+    "productionPlan": "Plano de Producao",
+    "materialUsage": "Uso de Materiais",
+    "quantityToProduce": "Qtd. a Produzir",
+    "unitPrice": "Preco Unitario",
+    "subtotal": "Subtotal",
+    "available": "Disponivel",
+    "used": "Utilizado",
+    "remaining": "Restante",
+    "usagePercent": "% de Uso",
+    "computationTime": "Tempo de Calculo",
+    "noProduction": "Nenhuma producao recomendada com o estoque atual"
+  },
+  "common": {
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar",
+    "actions": "Acoes",
+    "loading": "Carregando...",
+    "noData": "Nenhum dado encontrado",
+    "confirm": "Confirmar",
+    "success": "Operacao realizada com sucesso",
+    "error": "Ocorreu um erro",
+    "close": "Fechar",
+    "yes": "Sim",
+    "no": "Nao",
+    "language": "Idioma"
+  },
+  "units": {
+    "g": "gramas",
+    "kg": "quilogramas",
+    "ml": "mililitros",
+    "L": "litros",
+    "un": "unidades"
+  }
+}
