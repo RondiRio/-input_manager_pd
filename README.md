@@ -86,4 +86,4 @@ input-manager-pd/
 
 ## License
 
-Proprietary - Projedata
+Proprietary - Rondineli Oliveira
