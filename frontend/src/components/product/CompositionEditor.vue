@@ -51,12 +51,21 @@
 //        quantidade. Impedimos duplicatas: se uma materia-prima ja foi selecionada em
 //        outra linha, ela nao aparece no dropdown. Isso evita erros bobos e torna
 //        a experiencia mais intuitiva.
+//
+//        IMPORTANTE: usamos a flag `isEmitting` para evitar um loop circular entre os
+//        watchers de `items` e `modelValue`. Sem ela, qualquer mudanca no usuario causa
+//        items->emit->modelValue->items->emit->... infinitamente, perdendo dados.
+//
 // EN-US: Product composition editor -- the most interactive part of the form.
 //        The user can add and remove raw material lines, each with a quantity.
 //        We prevent duplicates: if a raw material is already selected in another
 //        line, it doesn't show in the dropdown. This avoids silly mistakes and
 //        makes the experience more intuitive.
-import { ref, watch, onMounted } from 'vue'
+//
+//        IMPORTANT: we use the `isEmitting` flag to prevent a circular loop between
+//        the `items` and `modelValue` watchers. Without it, any user change causes
+//        items->emit->modelValue->items->emit->... infinitely, losing data.
+import { ref, watch, onMounted, nextTick } from 'vue'
 import { useRawMaterialStore } from '@/stores/rawMaterial'
 import BaseInput from '@/components/ui/BaseInput.vue'
 import BaseButton from '@/components/ui/BaseButton.vue'
@@ -69,6 +78,7 @@ const emit = defineEmits(['update:modelValue'])
 const rawMaterialStore = useRawMaterialStore()
 
 const items = ref([])
+const isEmitting = ref(false)
 
 onMounted(() => {
   if (rawMaterialStore.items.length === 0) {
@@ -76,22 +86,35 @@ onMounted(() => {
   }
 })
 
+// PT-BR: Recebe dados do pai (modelValue) e popula items locais.
+//        Ignora quando a mudanca veio do proprio emit (flag isEmitting).
+// EN-US: Receives data from parent (modelValue) and populates local items.
+//        Ignores when the change came from our own emit (isEmitting flag).
 watch(() => props.modelValue, (val) => {
+  if (isEmitting.value) return
   if (val && val.length > 0) {
     items.value = val.map(c => ({
       rawMaterialId: String(c.rawMaterialId || ''),
-      requiredQuantity: c.requiredQuantity || ''
+      requiredQuantity: c.requiredQuantity != null ? String(c.requiredQuantity) : ''
     }))
   } else {
     items.value = []
   }
 }, { immediate: true, deep: true })
 
+// PT-BR: Quando o usuario muda algo nos items, emite para o pai.
+//        A flag isEmitting impede que o watcher do modelValue responda
+//        e recrie os items, causando loop infinito.
+// EN-US: When the user changes something in items, emits to parent.
+//        The isEmitting flag prevents the modelValue watcher from responding
+//        and recreating items, causing an infinite loop.
 watch(items, (val) => {
+  isEmitting.value = true
   emit('update:modelValue', val.map(item => ({
-    rawMaterialId: Number(item.rawMaterialId) || null,
-    requiredQuantity: Number(item.requiredQuantity) || null
+    rawMaterialId: item.rawMaterialId ? Number(item.rawMaterialId) : null,
+    requiredQuantity: item.requiredQuantity ? Number(item.requiredQuantity) : null
   })))
+  nextTick(() => { isEmitting.value = false })
 }, { deep: true })
 
 function availableMaterials(currentIndex) {
