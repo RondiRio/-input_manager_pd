@@ -38,6 +38,10 @@
       />
     </div>
 
+    <div v-if="errors.general" class="form-error-banner">
+      {{ errors.general }}
+    </div>
+
     <div class="form-actions">
       <BaseButton variant="secondary" @click="$emit('cancelled')">{{ $t('common.cancel') }}</BaseButton>
       <BaseButton type="submit" :loading="saving">{{ $t('common.save') }}</BaseButton>
@@ -78,7 +82,8 @@ const errors = reactive({
   code: '',
   name: '',
   stockQuantity: '',
-  unit: ''
+  unit: '',
+  general: ''
 })
 
 const unitOptions = [
@@ -109,6 +114,7 @@ function validate() {
   errors.name = ''
   errors.stockQuantity = ''
   errors.unit = ''
+  errors.general = ''
 
   if (!form.code.trim()) { errors.code = 'Code is required'; valid = false }
   if (!form.name.trim()) { errors.name = 'Name is required'; valid = false }
@@ -139,9 +145,19 @@ async function handleSubmit() {
     }
     emit('saved')
   } catch (e) {
+    // PT-BR: Exibe erros do servidor para o usuario. Erros sobre codigo duplicado
+    //        vao para o campo 'code'; todos os outros aparecem no banner geral.
+    // EN-US: Shows server errors to the user. Duplicate code errors go to the
+    //        'code' field; all others appear in the general banner.
     const serverError = e.response?.data?.error
-    if (serverError && serverError.includes('code')) {
-      errors.code = serverError
+    if (serverError) {
+      if (serverError.toLowerCase().includes('code')) {
+        errors.code = serverError
+      } else {
+        errors.general = serverError
+      }
+    } else {
+      errors.general = e.message || 'An unexpected error occurred'
     }
   } finally {
     saving.value = false
@@ -154,6 +170,16 @@ async function handleSubmit() {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-md);
+}
+
+.form-error-banner {
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: var(--radius-md);
+  color: #dc2626;
+  font-size: 14px;
 }
 
 .form-actions {

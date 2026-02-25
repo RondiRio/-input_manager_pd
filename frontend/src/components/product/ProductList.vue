@@ -88,8 +88,13 @@ function openEditForm(row) { editingItem.value = { ...row }; showForm.value = tr
 function closeForm() { showForm.value = false; editingItem.value = null }
 
 async function handleSaved() {
+  // PT-BR: Capturamos se era edicao ANTES de fechar o formulario, pois closeForm()
+  //        anula editingItem. Sem isso, a mensagem seria sempre "criado".
+  // EN-US: We capture whether it was editing BEFORE closing the form, because
+  //        closeForm() nullifies editingItem. Without this, the message would always be "created".
+  const wasEditing = !!editingItem.value
   closeForm()
-  emit('alert', { type: 'success', message: editingItem.value ? t('product.updated') : t('product.created') })
+  emit('alert', { type: 'success', message: wasEditing ? t('product.updated') : t('product.created') })
 }
 
 function confirmDelete(row) { deletingItem.value = row; showDeleteConfirm.value = true }

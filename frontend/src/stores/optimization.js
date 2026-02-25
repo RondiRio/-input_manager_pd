@@ -23,7 +23,19 @@ export const useOptimizationStore = defineStore('optimization', () => {
       const response = await optimizationApi.optimize()
       result.value = response.data
     } catch (e) {
-      error.value = e.response?.data?.error || 'Optimization failed'
+      // PT-BR: Mostramos a mensagem real do servidor (se disponivel) ou a mensagem
+      //        de rede do axios. Isso ajuda o usuario a entender o que deu errado
+      //        (ex: backend nao esta rodando vs. erro de dados).
+      // EN-US: We show the actual server message (if available) or the axios network
+      //        message. This helps the user understand what went wrong
+      //        (e.g., backend not running vs. data error).
+      if (e.response?.data?.error) {
+        error.value = e.response.data.error
+      } else if (e.code === 'ERR_NETWORK' || !e.response) {
+        error.value = 'Could not connect to the server. Make sure the backend is running.'
+      } else {
+        error.value = e.message || 'Optimization failed'
+      }
     } finally {
       loading.value = false
     }

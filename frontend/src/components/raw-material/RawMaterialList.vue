@@ -92,8 +92,13 @@ function closeForm() {
 }
 
 async function handleSaved() {
+  // PT-BR: Capturamos se era edicao ANTES de fechar o formulario, pois closeForm()
+  //        anula editingItem. Sem isso, a mensagem seria sempre "criado".
+  // EN-US: We capture whether it was editing BEFORE closing the form, because
+  //        closeForm() nullifies editingItem. Without this, the message would always be "created".
+  const wasEditing = !!editingItem.value
   closeForm()
-  emit('alert', { type: 'success', message: editingItem.value ? t('rawMaterial.updated') : t('rawMaterial.created') })
+  emit('alert', { type: 'success', message: wasEditing ? t('rawMaterial.updated') : t('rawMaterial.created') })
 }
 
 function confirmDelete(row) {
