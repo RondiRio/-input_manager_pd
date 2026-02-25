@@ -10,6 +10,7 @@ import com.projedata.inputmanager.repository.ProductRepository;
 import com.projedata.inputmanager.repository.RawMaterialRepository;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 
 import java.util.ArrayList;
@@ -31,6 +32,9 @@ public class ProductService {
 
     @Inject
     RawMaterialRepository rawMaterialRepository;
+
+    @Inject
+    EntityManager entityManager;
 
     public List<ProductDTO> listAll() {
         return repository.listAll().stream()
@@ -95,12 +99,15 @@ public class ProductService {
         entity.salePrice = dto.salePrice;
 
         // PT-BR: A estrategia aqui e "limpar e reconstruir": removemos todas as composicoes
-        //        antigas e adicionamos as novas. O orphanRemoval do JPA cuida de deletar
-        //        as orfas automaticamente. E mais simples do que tentar fazer diff linha a linha.
+        //        antigas e adicionamos as novas. O flush() entre o clear e o add e essencial --
+        //        sem ele, o Hibernate pode tentar inserir as novas composicoes ANTES de deletar
+        //        as antigas, violando a UniqueConstraint(product_id, raw_material_id).
         // EN-US: The strategy here is "clear and rebuild": we remove all old compositions
-        //        and add the new ones. JPA's orphanRemoval takes care of deleting the orphans
-        //        automatically. It's simpler than trying to diff line by line.
+        //        and add the new ones. The flush() between clear and add is essential --
+        //        without it, Hibernate may try to insert new compositions BEFORE deleting
+        //        the old ones, violating the UniqueConstraint(product_id, raw_material_id).
         entity.compositions.clear();
+        entityManager.flush();
 
         if (dto.compositions != null) {
             for (ProductCompositionDTO compDTO : dto.compositions) {

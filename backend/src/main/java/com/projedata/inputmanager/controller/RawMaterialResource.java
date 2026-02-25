@@ -2,6 +2,7 @@ package com.projedata.inputmanager.controller;
 
 import com.projedata.inputmanager.dto.RawMaterialDTO;
 import com.projedata.inputmanager.service.RawMaterialService;
+import jakarta.annotation.security.PermitAll;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
@@ -24,6 +25,7 @@ import java.util.List;
 @Path("/api/raw-materials")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@PermitAll
 public class RawMaterialResource {
 
     @Inject
