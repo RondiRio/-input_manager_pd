@@ -237,14 +237,29 @@ public class ProductionOptimizationService {
         return true;
     }
 
-    // PT-BR: Calcula o limite superior usando relaxacao linear. Permitimos producao
-    //        fracionaria dos produtos ainda nao decididos para obter um teto otimista.
-    //        Se nem com producao fracionaria conseguimos superar a melhor solucao atual,
-    //        entao com certeza a solucao inteira tambem nao vai superar.
-    // EN-US: Calculates the upper bound using linear relaxation. We allow fractional
-    //        production of undecided products to get an optimistic ceiling.
-    //        If even with fractional production we can't beat the current best solution,
-    //        then the integer solution certainly won't beat it either.
+    // PT-BR: Calcula o limite superior (upper bound) valido para o problema da mochila
+    //        multidimensional. Para cada produto ainda nao decidido, calculamos
+    //        independentemente o maximo fracionario que ele poderia produzir com os
+    //        recursos restantes, SEM consumir esses recursos (permitindo "duplicacao").
+    //        Isso garante uma SUPERESTIMATIVA -- o bound nunca e menor que a solucao
+    //        otima real, portanto nunca podamos um ramo que contenha a solucao otima.
+    //
+    //        A versao anterior usava preenchimento sequencial (consomia recursos para cada
+    //        produto antes de calcular o proximo), o que gerava um bound SUBESTIMADO.
+    //        Isso fazia o algoritmo podar ramos com a solucao otima, retornando resultado
+    //        subotimo (ex: so produzia o primeiro produto, ignorando combinacoes melhores).
+    //
+    // EN-US: Calculates a valid upper bound for the multi-dimensional knapsack problem.
+    //        For each undecided product, we independently calculate the maximum fractional
+    //        units it could produce with the remaining resources, WITHOUT consuming those
+    //        resources (allowing "overlap"). This guarantees an OVERESTIMATE -- the bound
+    //        is never less than the real optimal solution, so we never prune a branch
+    //        that contains the optimal solution.
+    //
+    //        The previous version used sequential fill (consuming resources for each product
+    //        before calculating the next), which generated an UNDERESTIMATE. This caused the
+    //        algorithm to prune branches containing the optimal solution, returning suboptimal
+    //        results (e.g., only producing the first product, ignoring better combinations).
     private double calculateUpperBound(BBNode node, int n, int m,
                                         double[] prices, double[] stock,
                                         double[][] consumption) {
@@ -257,10 +272,14 @@ public class ProductionOptimizationService {
             }
         }
 
-        // PT-BR: Preenchimento ganancioso fracionario para os produtos restantes,
-        //        ordenados por eficiencia (preco por unidade de recurso consumido)
-        // EN-US: Greedy fractional fill for remaining products,
-        //        ordered by efficiency (price per unit of consumed resource)
+        // PT-BR: Para cada produto restante, calculamos o maximo INDEPENDENTE que ele
+        //        poderia produzir com os recursos disponiveis. Nao atualizamos remaining
+        //        porque cada produto calcula isoladamente -- isso da um bound valido
+        //        (superestimado) que nunca poda a solucao otima.
+        // EN-US: For each remaining product, we calculate the INDEPENDENT maximum it could
+        //        produce with available resources. We don't update remaining because each
+        //        product calculates in isolation -- this gives a valid (overestimated) bound
+        //        that never prunes the optimal solution.
         for (int i = node.level; i < n; i++) {
             double maxFractionalUnits = Double.MAX_VALUE;
             boolean hasConstraint = false;
@@ -276,9 +295,10 @@ public class ProductionOptimizationService {
 
             if (maxFractionalUnits > 0) {
                 bound += prices[i] * maxFractionalUnits;
-                for (int j = 0; j < m; j++) {
-                    remaining[j] -= consumption[j][i] * maxFractionalUnits;
-                }
+                // PT-BR: NAO atualizamos remaining[] aqui! Cada produto usa o estoque
+                //        completo independentemente. Isso garante um upper bound valido.
+                // EN-US: We do NOT update remaining[] here! Each product uses the full
+                //        stock independently. This ensures a valid upper bound.
             }
         }
 
